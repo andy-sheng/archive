@@ -1,0 +1,28 @@
+.search-result-box
+{
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.search-result
+{
+	background-color: black;
+	padding-left: 0px;
+	padding-right: 0px;	
+	padding-top: 10px;
+}
+.search-result-pic
+{
+	max-width: 100px;
+	max-height: 150px;
+}
+.detail-box
+{
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+body
+{
+	
+}

@@ -1,0 +1,30 @@
+package com.a;
+//使用 JDBC
+import java.sql.*;
+public class eg{
+		public static void N()
+	{
+		try{
+			Class.forName("oracle.jdbc.driver.OracleDriver");//加载驱动
+			Connection ct=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","normal","tiger");
+			PreparedStatement sm=ct.prepareStatement("create table se1(" +
+					"sno char(10) not null," +
+					"ename varchar(20) not null," +
+					"fulfilment varchar(10)," +
+					"time varchar(20)," +
+					"foreign key(sno) references student(sno)" +
+					"on delete cascade" +
+					")");
+			sm.executeUpdate();
+			
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args)
+	{
+		eg.N();
+			}
+}

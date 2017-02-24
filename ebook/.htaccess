@@ -1,0 +1,13 @@
+php_value post_max_size 12m
+php_value upload_max_filesize 12m
+php_value max_execution_time 600
+php_value max_input_time 240
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule index.html$ index.php
+RewriteRule ([a-zA-Z]{1,}).html$ index.php?action=$1
+RewriteRule book/([0-9]{1,}).html$ index.php?action=detail&bid=$1
+RewriteRule ([a-zA-Z]{1,})/([a-zA-Z]{1,})/([\x00-\xff]{1,}).html/pg=([0-9]{1,})$ index.php?action=$1&method=$2&query=$3&pg=$4
+RewriteRule ([a-zA-Z]{1,})/([a-zA-Z]{1,})/([\x00-\xff]{1,}).html$ index.php?action=$1&method=$2&query=$3
+RewriteRule book1/([0-9]{1,}).html$ test3.php?action=detail&bid=$1
+</IfModule>

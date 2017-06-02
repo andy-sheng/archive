@@ -1,0 +1,192 @@
+package test;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.*;
+
+import javax.lang.model.element.Element;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
+
+public class test implements MouseListener,DocumentListener{
+	private String text1Buf = "";
+	private String text2Buf = "";
+	private String text3Buf = "";
+JFrame frame = new JFrame("Welcome to Smiley Count!");
+JPanel panel=new JPanel(new BorderLayout());
+JLabel labelTop=new JLabel("Enter two operands,result and click on 'Check!'");
+JPanel north=new JPanel();
+JPanel south=new JPanel();
+JPanel west=new JPanel();
+JPanel east=new JPanel();
+
+JTextField text1 = new JTextField(2);
+JTextField text2 = new JTextField(2);
+JTextField text3 = new JTextField(2);
+
+JButton check= new JButton("Check");
+ 
+
+JLabel labelPlus = new JLabel ("+");
+JLabel labelEqual = new JLabel("=");
+JPanel center = new JPanel();
+ImageIcon plus = new ImageIcon("plus.png");
+JLabel labelCenter = new JLabel(plus);
+ImageIcon smiley = new ImageIcon("smiley.png");
+      JLabel[] labelWest = new JLabel[10];
+      JLabel[] labelEast = new JLabel[10];
+
+ int num1,num2,num3;
+ int random1,random2,answer;
+
+
+ public test(){
+	 text1.getDocument().addDocumentListener(this);
+	 text2.getDocument().addDocumentListener(this);
+	 text3.getDocument().addDocumentListener(this);
+    panel.add(north,BorderLayout.NORTH);
+    north.add(labelTop);
+	south.add(text1);
+    south.add(labelPlus);
+	south.add(text2);
+	south.add(labelEqual);
+	south.add(text3);
+	south.add(check);
+	panel.add(south,BorderLayout.SOUTH);
+	check.addMouseListener(this);
+	
+	random1 = (int)(Math.random()*10+1);
+	random2 = (int)(Math.random()*10+1);
+	answer = random1 + random2;
+	 
+	for(int i=0;i<10;i++){
+		  labelWest[i] = new JLabel(smiley);
+		  labelEast[i] = new JLabel(smiley);
+		}
+		
+		
+		west.setLayout(new GridLayout(0,4));
+		for(int i=0;i<random1;i++){
+		  west.add(labelWest[i]); 
+		}
+		
+		east.setLayout(new GridLayout(0,4));
+		for(int i=0;i<random2;i++){
+		  east.add(labelEast[i]); 
+		}
+		panel.add(labelCenter,BorderLayout.CENTER);
+		panel.add(west,BorderLayout.WEST);
+		panel.add(east,BorderLayout.EAST);
+		
+		frame.add(panel);
+		frame.setSize(1200,500);
+		frame.setVisible(true);
+
+
+}
+	public void mouseClicked(MouseEvent event) throws NumberFormatException{
+		try{
+			num1 = Integer.parseInt(text1.getText()); 
+			num2 = Integer.parseInt(text2.getText());
+			num3 = Integer.parseInt(text3.getText());
+			if(num1==random1 && num2==random2 && num3==answer){
+				labelTop.setText("Correct! Have another go?");
+				text1.setText("");
+				text2.setText("");
+				text3.setText("");
+				panel.remove(west);
+				panel.remove(east);
+				west.removeAll();
+				east.removeAll();
+		        random1 = (int)(Math.random()*10+1);
+		        random2 = (int)(Math.random()*10+1);
+		        answer = random1 + random2;
+				for(int i=0;i<random1;i++)
+					west.add(labelWest[i]);
+				for(int i=0;i<random2;i++)
+					east.add(labelEast[i]);
+				panel.add(west,BorderLayout.WEST);
+				panel.add(east,BorderLayout.EAST);
+				panel.updateUI();
+				
+			}
+			else{
+				labelTop.setText("Wrong! Try again");
+			}
+		}catch(NumberFormatException exception){}
+
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+
+
+public static void main(String[] args){
+	test start = new test();
+    }
+
+
+
+public void changedUpdate(DocumentEvent e) {
+	if(e.getDocument() == text1.getDocument()){
+		int tmp = 0;
+		try{
+			tmp = Integer.parseInt(text1.getText());
+		}catch(NumberFormatException ex){
+			text1.setText(text1Buf);
+			text1Buf = text1.getText();
+			return;
+		}
+		if(tmp > 10 || tmp < 1)
+			text1.setText(text1Buf);
+		text1Buf = text1.getText();
+	}
+	else if(e.getDocument() == text1.getDocument()){
+		
+	}
+	else{
+		System.out.println("text3");
+	}
+	
+}
+public void insertUpdate(DocumentEvent e) {
+	if(e.getDocument() == text1.getDocument()){
+		text1.getDocument().removeDocumentListener(this);
+		int tmp = 0;
+		try{
+			tmp = Integer.parseInt(text1.getText());
+		}catch(NumberFormatException ex){
+			text1.setText(text1Buf);
+			text1Buf = text1.getText();
+			return;
+		}
+		if(tmp > 10 || tmp < 1){
+			EventQueue.invokeLater(new Runnable() {
+	            public void run() {
+	                text1.setText("");
+	            }
+	        });
+			text1.requestFocus();
+		}
+		else
+			text1Buf = text1.getText();
+	}
+	else if(e.getDocument() == text1.getDocument()){
+		
+	}
+	else{
+		System.out.println("text3");
+	}
+	
+}
+public void removeUpdate(DocumentEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+
+}
